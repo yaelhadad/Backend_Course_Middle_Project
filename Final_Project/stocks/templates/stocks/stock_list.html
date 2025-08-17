@@ -1,0 +1,23 @@
+{% extends 'stocks/base.html' %}
+
+{% block title %}Stock List{% endblock %}
+
+{% block content %}
+<h1>Stocks</h1>
+<div class="row">
+  {% for stock in stocks %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      <img src="{{ stock.logo.url }}" class="card-img-top p-3" alt="{{ stock.company_name }}" style="height:150px; object-fit:contain;">
+      <div class="card-body">
+        <h5 class="card-title">{{ stock.company_name }} ({{ stock.symbol }})</h5>
+        <p class="card-text">{{ stock.description|truncatewords:20 }}</p>
+        <a href="{% url 'stocks:stock_detail' stock.symbol %}" class="btn btn-primary">Details</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No stocks available.</p>
+  {% endfor %}
+</div>
+{% endblock %}
