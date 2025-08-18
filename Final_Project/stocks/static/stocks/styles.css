@@ -23,3 +23,88 @@ form {
 form input, form select, form textarea {
     margin-bottom: 15px;
 }
+
+/* AI Analysis Styling */
+.ai-analysis {
+    white-space: pre-line;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.ai-analysis h1, .ai-analysis h2, .ai-analysis h3 {
+    color: #2c3e50;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.ai-analysis ul, .ai-analysis ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.ai-analysis strong {
+    color: #34495e;
+}
+
+/* AI Button Hover Effects */
+.btn-outline-primary:hover,
+.btn-outline-info:hover,
+.btn-outline-success:hover,
+.btn-outline-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+/* Loading Animation for AI Buttons */
+.ai-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.ai-loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border-radius: 50%;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* News Cards Styling */
+.news-card {
+    transition: transform 0.2s ease;
+    border: 1px solid #e9ecef;
+}
+
+.news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* AI Results Styling */
+.alert-primary {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+}
+
+.alert-success {
+    background-color: #e8f5e8;
+    border-color: #81c784;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    border-color: #ffb74d;
+}

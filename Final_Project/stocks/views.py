@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from datetime import timedelta
 from .models import Stock, Review
-from .utils import update_stock_data, generate_ai_summary
+from .utils import update_stock_data, generate_ai_summary, get_stock_news, generate_news_summary
 
 
 def signup_view(request):
@@ -32,11 +32,31 @@ def stock_detail(request, symbol):
         update_stock_data(stock)
         stock.last_updated = timezone.now()
         stock.save()
+    # Initialize all variables to None/empty - prevent carrying over between requests
     ai_summary = None
+    news_articles = []
+    news_summary = None
 
-    # Only authenticated users can use AI features
+    # Only authenticated users can use AI features - MUTUALLY EXCLUSIVE
     if request.method == "POST" and "ai_summary" in request.POST and request.user.is_authenticated:
         ai_summary = generate_ai_summary(stock)
+        # Make sure news data is cleared when requesting AI summary only
+        news_articles = []
+        news_summary = None
+
+    elif request.method == "POST" and "get_news" in request.POST and request.user.is_authenticated:
+        try:
+            # Make sure AI summary is cleared when requesting news only
+            ai_summary = None
+            news_articles = get_stock_news(stock.symbol)
+
+            if news_articles:
+                news_summary = generate_news_summary(news_articles)
+                messages.success(request, f'✅ Found {len(news_articles)} recent news articles + AI summary!')
+            else:
+                messages.warning(request, '⚠️ No recent news found for this stock.')
+        except Exception as e:
+            messages.error(request, f'❌ Unable to fetch news: {str(e)}')
 
     # Handle reviews - only for authenticated users
     if request.method == "POST" and "review_submit" in request.POST and request.user.is_authenticated:
@@ -82,7 +102,9 @@ def stock_detail(request, symbol):
         "stock": stock,
         'ai_summary': ai_summary,
         'reviews': reviews,
-        'user_review': user_review
+        'user_review': user_review,
+        'news_articles': news_articles,
+        'news_summary': news_summary
     })
 
 
