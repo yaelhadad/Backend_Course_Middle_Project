@@ -41,6 +41,5 @@ USER appuser
 
 # Expose port
 EXPOSE 5000
-
 # Default command
 CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
